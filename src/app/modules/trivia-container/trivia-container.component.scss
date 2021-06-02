@@ -1,0 +1,21 @@
+.container {
+  width: 60%;
+  border: 1px solid blue;
+  padding: 20px;
+  margin: 40px auto;
+
+  .swipe {
+    overflow: hidden;
+    visibility: hidden;
+    position: relative;
+  }
+  .swipe-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+  .swipe-wrap > div {
+    float: left;
+    width: 100%;
+    position: relative;
+  }
+}

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "project-template": {
+    "trivia-game": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/project-template",
+            "outputPath": "dist/trivia-game",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "project-template:build"
+            "browserTarget": "trivia-game:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "project-template:build:production"
+              "browserTarget": "trivia-game:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "project-template:build"
+            "browserTarget": "trivia-game:build"
           }
         },
         "test": {
@@ -116,15 +116,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "project-template:serve"
+            "devServerTarget": "trivia-game:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "project-template:serve:production"
+              "devServerTarget": "trivia-game:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "project-template"
+  "defaultProject": "trivia-game"
 }

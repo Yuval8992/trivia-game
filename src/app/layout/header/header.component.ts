@@ -1,4 +1,4 @@
-import { Component, DoCheck, HostBinding, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -7,14 +7,15 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  @Output() onChangeViewMode: EventEmitter<boolean> = new EventEmitter()
   toggleControl: FormControl = new FormControl(false);
-  @HostBinding('class') className = '';
 
-  constructor() { }
+  constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
     this.toggleControl.valueChanges.subscribe((value: boolean) => {
-      this.className = value ? 'darkMode' : '';
+      this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = value ? '#303030' : 'lightgrey'
+      this.onChangeViewMode.emit(value);
     });
   }
 }

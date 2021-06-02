@@ -1,5 +1,23 @@
-$light-primary: mat-palette($mat-green, 300);
+@include mat-core;
+
+$light-primary: mat-palette($mat-orange, 500);
 $light-accent: mat-palette($mat-grey, 800);
 $light-warn: mat-palette($mat-red);
+$background-color: rgba(211, 211, 211, 0.719);
 
 $light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
+
+$background: map-get($light-theme, background);
+
+$background: map_merge(
+  $background,
+  (
+    background: $background-color,
+  )
+);
+$light-theme: map_merge(
+  $light-theme,
+  (
+    background: $background,
+  )
+);
