@@ -1,15 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TriviaAnswerComponent } from './trivia-answer/trivia-answer.component';
-
-
+import { TriviaQuestionComponent } from './trivia-question.component';
+import { TriviaAnswerModule } from './trivia-answer/trivia-answer.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
-    TriviaAnswerComponent
+    TriviaQuestionComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    TriviaAnswerModule,
+    SharedModule
+  ],
+  exports: [
+    TriviaQuestionComponent
   ]
 })
 export class TriviaQuestionModule { }

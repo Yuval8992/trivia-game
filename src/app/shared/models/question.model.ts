@@ -1,5 +1,6 @@
+import { Answer } from "./answer.model";
+
 export type Question = {
     question: string,
-    correctAnswer: string,
-    incorrectAnswers: string[]
+    answers: Answer[],
 }

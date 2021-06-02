@@ -1,0 +1,11 @@
+.answer-wrapper {
+  border: 1px solid grey;
+  padding: 3px;
+  border-radius: 5px;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.7s;
+}

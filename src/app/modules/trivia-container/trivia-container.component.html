@@ -1,17 +1,33 @@
-<div *ngIf="!loading" class="container">
-
-
-  <div  id="slider" class="swipe">
-      <div class="swipe-wrap">
-          <div *ngFor="let question of questions">
-              aa
-              <!-- <div style="text-align: center;">{{question.question}}</div> -->
-          </div>
-        <!-- <div style="text-align: center;">aa</div>
-        <div style="text-align: center;">aa</div> -->
+<div *ngIf="!loading; else spinner" class="container">
+  <div *ngIf="!message; else messageTemplate">
+    <div id="slider" class="swipe">
+        <div class="swipe-wrap">
+            <div *ngFor="let question of questions; let index = index" class="question">
+              <app-trivia-question [index]="index" (nextQuestion)="nextQuestion($event)"></app-trivia-question>
+            </div>
+        </div>
       </div>
+      <div style="margin-top: 8px;">
+          Left Attepmts: {{attempts}}<br>
+      </div>
+      <div class="dots-view">
+        <div *ngFor="let dot of questions; let index = index" 
+        class="circle" 
+        [ngStyle]="{'background-color' : this.currentQuestionIdx == index ? '#1565C0': '#707a858c'}"></div>
+      </div>
+  </div>
+  <ng-template #messageTemplate >
+    <div class="message">
+      {{message}}
     </div>
-
-  <!-- <div (click)="vvv()">ggggg</div> -->
-
+    <div class="replay" (click)="onRestart()">
+      <button mat-raised-button color="primary">Replay</button>
+    </div>
+    </ng-template>
 </div>
+
+<ng-template #spinner>
+  <div class="spinner" *ngIf="true">
+    <mat-spinner [diameter]="120"></mat-spinner>
+  </div>
+</ng-template>

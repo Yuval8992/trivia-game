@@ -1,8 +1,10 @@
 .container {
-  width: 60%;
-  border: 1px solid blue;
+  width: 65%;
+  border: 1px solid rgb(167, 166, 166);
+  border-radius: 10px;
   padding: 20px;
   margin: 40px auto;
+  width: 922px;
 
   .swipe {
     overflow: hidden;
@@ -18,4 +20,34 @@
     width: 100%;
     position: relative;
   }
+
+  .message {
+    font-size: 26px;
+    padding: 35px 45px 45px;
+    text-align: center;
+  }
+
+  .replay {
+    display: flex;
+    justify-content: center;
+  }
+
+  .dots-view {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+    .circle {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      border-radius: 50%;
+      margin-right: 14px;
+    }
+  }
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  margin-top: 12%;
 }

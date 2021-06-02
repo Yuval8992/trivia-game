@@ -1,1 +1,19 @@
-<p>trivia-question works!</p>
+<div class="question-wrapper">
+    <div class="header">
+        <div class="question">
+        Q{{index + 1}}.&nbsp;{{question.question}}
+        </div>
+        <div *ngIf="timeLeft">
+            <div class="timeout">
+                <div style="font-size: 18px;">Time:</div>
+                <mat-icon>hourglass_empty</mat-icon>
+                <div class="time-left">{{timeLeft}} {{timeLeft > 1 ? ' SECONDS': 'SECOND'}} </div>
+            </div>
+        </div>
+    </div>
+    <div class="answers-wrapper">
+        <div *ngFor="let answer of question.answers">
+            <app-trivia-answer (click)="nextQuestion(answer)" [answer]="answer"></app-trivia-answer>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+.question-wrapper {
+  margin-right: 30px;
+
+  .header {
+    display: grid;
+    grid-template-columns: 4fr 1.1fr;
+    align-items: flex-start;
+    grid-column-gap: 20px;
+    .question {
+      font-size: 18px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .timeout {
+      display: flex;
+      align-items: center;
+
+      .timeleft {
+        padding-top: 1px;
+      }
+    }
+  }
+
+  .answers-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 30px;
+    grid-column-gap: 25px;
+    grid-row-gap: 20px;
+  }
+}

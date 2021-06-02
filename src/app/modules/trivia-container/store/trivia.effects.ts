@@ -6,8 +6,9 @@ import { switchMap, map, withLatestFrom } from 'rxjs/operators';
 
 import * as TriviaActions from './trivia.actions';
 import * as fromApp from '../../../store/app.reducer';
-
-const NUMBER_OF_QUESTIONS = 10;
+import { Question } from 'src/app/shared/models/question.model';
+import { Answer } from 'src/app/shared/models/answer.model';
+import * as Constants from '../../../shared/consts/consts'
 
 @Injectable()
 export class TriviaEffects {
@@ -19,18 +20,30 @@ export class TriviaEffects {
     ),
     map(question => {
       const filterQuestion = question['results'][0];
+      const answers: Answer[] =
+        [...filterQuestion['incorrect_answers'].map(el => {
+          return {
+            answer: atob(el),
+            isCorrect: false
+          }
+        }),
+        {
+          answer: atob(filterQuestion['correct_answer']),
+          isCorrect: true
+        }
+        ];
+
       return {
         question: atob(filterQuestion['question']),
-        correctAnswer: atob(filterQuestion['correct_answer']),
-        incorrectAnswers: filterQuestion['incorrect_answers'].map(el => atob(el))
+        answers: answers.sort(() => Math.random() - 0.5)
       }
     }),
     withLatestFrom(this.store.select('trivia')),
     switchMap(([question, storeState]) => {
-      if (storeState.questions.length < NUMBER_OF_QUESTIONS) {
+      if (storeState.questions.length < Constants.NUMBER_OF_QUESTIONS) {
         const actions: any = [new TriviaActions.FetchQuestion()]
         if (storeState.questions.filter(el => el.question === question.question).length === 0) {
-          actions.push(new TriviaActions.StoreQuestion(question))
+          actions.push(new TriviaActions.StoreQuestion(question as Question))
         }
         return actions;
       }
