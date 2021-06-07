@@ -47,28 +47,18 @@ export class TriviaContainerComponent implements OnInit {
         if (!this.loading && this.firstInit) {
           setTimeout(() => {
             this.initSlider();
-            this.timer = setInterval(() => {
-              if (this.clockRunnig && !this.gameOver) {
-                if (this.timeLeft === 1) {
-                  this.store.dispatch(new TriviaActions.DisplayMessage(GameMessages.TIME_UP))
-                  clearInterval(this.timer)
-                }
-                this.store.dispatch(new TriviaActions.SetTimeLeft(--this.timeLeft));
-              }
-            }, 1000)
+            this.initClock();
           }, 200)
           this.firstInit = false
         }
 
         if (!triviaState.attempts && !this.gameOver) {
-          this.gameOver = true;
-          clearInterval(this.timer);
+          this.gameFinish();
           this.store.dispatch(new TriviaActions.DisplayMessage(GameMessages.LOSE_GAME))
         }
 
         if (this.currentQuestionIdx === Constants.NUMBER_OF_QUESTIONS && !this.gameOver) {
-          this.gameOver = true;
-          clearInterval(this.timer);
+          this.gameFinish();
           this.store.dispatch(new TriviaActions.DisplayMessage(GameMessages.WIN_GAME +
             ` Your Score is ${Constants.NUMBER_OF_QUESTIONS - (Constants.ATTEMPTS - this.attempts)}/${Constants.NUMBER_OF_QUESTIONS}`))
         }
@@ -86,11 +76,27 @@ export class TriviaContainerComponent implements OnInit {
       disableScroll: true,
       stopPropagation: true,
     });
+  }
 
+  initClock() {
+    this.timer = setInterval(() => {
+      if (this.clockRunnig && !this.gameOver) {
+        if (this.timeLeft === 1) {
+          this.store.dispatch(new TriviaActions.DisplayMessage(GameMessages.TIME_UP))
+          clearInterval(this.timer)
+        }
+        this.store.dispatch(new TriviaActions.SetTimeLeft(--this.timeLeft));
+      }
+    }, 1000)
   }
 
   nextQuestion($event) {
     this.slider.next();
+  }
+
+  gameFinish() {
+    this.gameOver = true;
+    clearInterval(this.timer);
   }
 
   onRestart() {

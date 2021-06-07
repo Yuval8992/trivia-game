@@ -41,9 +41,9 @@ export class TriviaEffects {
     withLatestFrom(this.store.select('trivia')),
     switchMap(([question, storeState]) => {
       if (storeState.questions.length < Constants.NUMBER_OF_QUESTIONS) {
-        const actions: any = [new TriviaActions.FetchQuestion()]
+        const actions: TriviaActions.TriviaActions[] = [new TriviaActions.FetchQuestion()]
         if (storeState.questions.filter(el => el.question === question.question).length === 0) {
-          actions.push(new TriviaActions.StoreQuestion(question as Question))
+          actions.unshift(new TriviaActions.StoreQuestion(question as Question))
         }
         return actions;
       }
