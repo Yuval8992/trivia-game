@@ -16,39 +16,40 @@ export class TriviaEffects {
   fetchQuestion = this.actions$.pipe(
     ofType(TriviaActions.FETCH_QUESTION),
     switchMap(() =>
-      this.http.get('https://opentdb.com/api.php?amount=1&encode=base64&type=multiple')
-    ),
-    map(question => {
-      const filterQuestion = question['results'][0];
-      const answers: Answer[] =
-        [...filterQuestion['incorrect_answers'].map(el => {
+      this.http.get('https://opentdb.com/api.php?amount=1&encode=base64&type=multiple').pipe(
+        map(question => {
+          const filterQuestion = question['results'][0];
+          const answers: Answer[] =
+            [...filterQuestion['incorrect_answers'].map(el => {
+              return {
+                answer: atob(el),
+                isCorrect: false
+              }
+            }),
+            {
+              answer: atob(filterQuestion['correct_answer']),
+              isCorrect: true
+            }
+            ];
+
           return {
-            answer: atob(el),
-            isCorrect: false
+            question: atob(filterQuestion['question']),
+            answers: answers.sort(() => Math.random() - 0.5)
           }
         }),
-        {
-          answer: atob(filterQuestion['correct_answer']),
-          isCorrect: true
+        withLatestFrom(this.store.select('trivia')),
+        switchMap(([question, storeState]) => {
+          if (storeState.questions.length < Constants.NUMBER_OF_QUESTIONS) {
+            const actions: TriviaActions.TriviaActions[] = [new TriviaActions.FetchQuestion()]
+            if (storeState.questions.filter(el => el.question === question.question).length === 0) {
+              actions.unshift(new TriviaActions.StoreQuestion(question as Question))
+            }
+            return actions;
+          }
+          return [new TriviaActions.FetchQuestionsEnd()]
         }
-        ];
-
-      return {
-        question: atob(filterQuestion['question']),
-        answers: answers.sort(() => Math.random() - 0.5)
-      }
-    }),
-    withLatestFrom(this.store.select('trivia')),
-    switchMap(([question, storeState]) => {
-      if (storeState.questions.length < Constants.NUMBER_OF_QUESTIONS) {
-        const actions: TriviaActions.TriviaActions[] = [new TriviaActions.FetchQuestion()]
-        if (storeState.questions.filter(el => el.question === question.question).length === 0) {
-          actions.unshift(new TriviaActions.StoreQuestion(question as Question))
-        }
-        return actions;
-      }
-      return [new TriviaActions.FetchQuestionsEnd()]
-    }
+        ),
+      )
     ),
   );
 
